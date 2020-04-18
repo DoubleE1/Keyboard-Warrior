@@ -7,6 +7,8 @@ public class WordDisplay : MonoBehaviour
     public Text text;
     public float fallSpeed = 1f;
     public TextManager textManager;
+    public bool reached;
+
     public void SetWord (string word)
     {
         text.text = word;
@@ -23,23 +25,18 @@ public class WordDisplay : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void CheckDistance()
+    public bool CheckDistance()
     {
         Vector2 limitRange = new Vector2(Random.Range(-2.5f, 2.5f), -7f);
 
-        if(Vector2.Distance(transform.position, limitRange) <= 7f)
+        if(Vector2.Distance(transform.position, limitRange) <= 1f)
         {
-            // for(int i = 0; i < text.text.Length; i++)
-            // {
-            //     RemoveLetter();
-            // }
-            // RemoveWord();
-            textManager.removeAll = true;
+            reached = true;
         }
+        return reached;
     }
 
     private void Update() {
         transform.Translate(0f, -fallSpeed * Time.deltaTime, 0);
-        CheckDistance();
     }
 }

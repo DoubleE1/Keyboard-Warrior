@@ -7,7 +7,6 @@ public class TextManager : MonoBehaviour
     public List<Word> words;
     private bool hasActiveWord;
     public Word activeWord;
-    public bool removeAll;
     public WordSpawner wordSpawner;
 
     public void AddWord()
@@ -18,7 +17,6 @@ public class TextManager : MonoBehaviour
 
     public void TypeLetter (char letter) 
     {
-
         if (hasActiveWord)
         {
             if(activeWord.GetNextLetter() == letter)
@@ -39,10 +37,6 @@ public class TextManager : MonoBehaviour
                 }
             }
         }
-        if(removeAll)
-        {
-            activeWord.RemoveAllLetter();
-        }
         if(hasActiveWord && activeWord.WordTyped())
         {
             RemoveActiveWord();
@@ -53,7 +47,27 @@ public class TextManager : MonoBehaviour
     {
         hasActiveWord = false;
         words.Remove(activeWord);
-        Debug.Log(activeWord.word);
     }
+
+    private void Update() {
+        if(hasActiveWord)
+        {
+            if(activeWord.RemoveAllLetter())
+            {
+                RemoveActiveWord();
+            }
+        }
+
+        foreach(Word word in words)
+        {
+            if(word.RemoveAllLetter() && word.WordTyped())
+            {
+                words.Remove(word);
+                break;
+            }
+        }
+
+    }
+
 }
 

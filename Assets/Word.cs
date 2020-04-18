@@ -9,10 +9,12 @@ public class Word{
     private int typeIndex;
     private int indexDif;
     WordDisplay display;
-    public Word(string _word, WordDisplay _display){
+    
+    public Word(string _word, WordDisplay _display)
+    {
         word = _word;
         typeIndex = 0;
-        indexDif = 0;
+        indexDif = word.Length;
 
         display = _display;
         display.SetWord(word);
@@ -23,18 +25,25 @@ public class Word{
         return word[typeIndex];
     }
 
-    public void TypeLetter(){
+    public void TypeLetter()
+    {
         typeIndex++;
         indexDif = word.Length - typeIndex;
         display.RemoveLetter();
     }
 
-    public void RemoveAllLetter()
+    public bool RemoveAllLetter()
     {
-        for(int i = 0; i < indexDif; i++)
+        bool removeAll = display.CheckDistance();
+        if(removeAll)
         {
-            TypeLetter();
+            int temp = indexDif;
+            for(int i = 0; i < temp; i++)
+            {
+                TypeLetter();
+            }
         }
+        return removeAll;
     }
 
     public bool WordTyped()
